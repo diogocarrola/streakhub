@@ -1,15 +1,22 @@
 const express = require('express');
-const dotenv = require('dotenv');
-const mongoose = require('./db');
+const bodyParser = require('body-parser');
 const routes = require('./routes');
+const connectDB = require('./db');
 
-dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+// Connect to the database
+connectDB();
+
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Routes
 app.use('/api', routes);
 
+// Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
