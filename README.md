@@ -1,7 +1,7 @@
 # StreakHub 🚀
 
 ## Introduction
-**StreakHub** is a gamified platform that helps developers stay consistent with their coding habits. Inspired by the **100 Days of Code challenge** and **Duolingo's streak system**, it combines tracking, accountability, and fun into one experience.
+**StreakHub** is a gamified platform that helps developers stay consistent with their coding habits. Inspired by the **100 Days of Code challenge** and **Duolingo's streak system**, it combines tracking, accountability, and fun into one experience. The platform merges the best of these concepts, providing a unique challenge experience for developers.
 
 ---
 
