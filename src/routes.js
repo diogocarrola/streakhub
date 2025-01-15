@@ -1,9 +1,23 @@
 const express = require('express');
-const { generateWidget } = require('./widgetController');
-
 const router = express.Router();
 
-// Route to generate the SVG widget
-router.get('/widget/:username', generateWidget);
+// Sample route for user registration
+router.post('/register', (req, res) => {
+    // Logic for user registration
+    res.status(201).json({ message: 'User registered successfully!' });
+});
+
+// Sample route for tracking challenges
+router.post('/challenges', (req, res) => {
+    // Logic for tracking challenges
+    res.status(200).json({ message: 'Challenge tracked successfully!' });
+});
+
+// Sample route for fetching streak stats
+router.get('/streaks/:userId', (req, res) => {
+    const userId = req.params.userId;
+    // Logic for fetching streak stats for the user
+    res.status(200).json({ userId, streak: '100/365 🔥' });
+});
 
 module.exports = router;
