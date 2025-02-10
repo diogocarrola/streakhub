@@ -18,6 +18,8 @@
     "express": "^4.21.2",
     "mongoose": "^8.9.3",
     "node-cache": "^5.1.2",
+    "passport": "^0.7.0",
+    "passport-github": "^1.1.0",
     "react-router-dom": "^7.1.5",
     "sharp": "^0.33.5"
   }
