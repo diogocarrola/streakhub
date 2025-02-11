@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('./auth');
 const router = express.Router();
 
 // Sample route for user registration
@@ -18,6 +19,12 @@ router.get('/streaks/:userId', (req, res) => {
     const userId = req.params.userId;
     // Logic for fetching streak stats for the user
     res.status(200).json({ userId, streak: '100/365 🔥' });
+});
+
+// GitHub OAuth routes
+router.get('/auth/github', passport.authenticate('github'));
+router.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+    res.redirect('/');
 });
 
 module.exports = router;
