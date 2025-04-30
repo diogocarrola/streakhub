@@ -1,7 +1,10 @@
 const express = require('express');
 const passport = require('./auth');
+const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const router = express.Router();
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 // User registration route
 router.post('/register', async (req, res) => {
@@ -37,8 +40,13 @@ router.post('/login', async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
-        // For simplicity, return a success message; token generation can be added later
-        res.status(200).json({ message: 'Login successful', userId: user._id });
+    // Generate JWT token
+    const token = jwt.sign(
+        { userId: user._id, username: user.username },
+        JWT_SECRET,
+        { expiresIn: '1h' }
+    );
+    res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error during login' });
@@ -46,9 +54,10 @@ router.post('/login', async (req, res) => {
 });
 
 const Challenge = require('./models/Challenge');
+const authenticateToken = require('./middleware/auth');
 
 // Route to create a new challenge
-router.post('/challenges', async (req, res) => {
+router.post('/challenges', authenticateToken, async (req, res) => {
     const { userId, name, startDate, durationDays } = req.body;
     if (!userId || !name || !startDate || !durationDays) {
         return res.status(400).json({ error: 'Please provide userId, name, startDate, and durationDays' });
@@ -70,8 +79,7 @@ router.post('/challenges', async (req, res) => {
     }
 });
 
-// Route to get challenges for a user
-router.get('/challenges/:userId', async (req, res) => {
+router.get('/challenges/:userId', authenticateToken, async (req, res) => {
     const { userId } = req.params;
     try {
         const challenges = await Challenge.find({ userId });
@@ -82,11 +90,17 @@ router.get('/challenges/:userId', async (req, res) => {
     }
 });
 
-// Sample route for fetching streak stats
-router.get('/streaks/:userId', (req, res) => {
-    const userId = req.params.userId;
-    // Logic for fetching streak stats for the user
-    res.status(200).json({ userId, streak: '100/365 🔥' });
+// Protected route for fetching streak stats
+router.get('/streaks/:userId', authenticateToken, async (req, res) => {
+    const { userId } = req.params;
+    try {
+        // Placeholder logic: fetch streak stats from DB or external API
+        // For now, return dummy data
+        res.status(200).json({ userId, streak: '100/365 🔥' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error while fetching streak stats' });
+    }
 });
 
 // GitHub OAuth routes
