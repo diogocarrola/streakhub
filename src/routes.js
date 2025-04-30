@@ -6,6 +6,8 @@ const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
+const { getUserCommitStreak } = require('./githubService');
+
 // User registration route
 router.post('/register', async (req, res) => {
     const { username, email, password } = req.body;
@@ -90,16 +92,15 @@ router.get('/challenges/:userId', authenticateToken, async (req, res) => {
     }
 });
 
-// Protected route for fetching streak stats
-router.get('/streaks/:userId', authenticateToken, async (req, res) => {
-    const { userId } = req.params;
+// New route: fetch streak by GitHub username (public, no auth)
+router.get('/streak/:username', async (req, res) => {
+    const { username } = req.params;
     try {
-        // Placeholder logic: fetch streak stats from DB or external API
-        // For now, return dummy data
-        res.status(200).json({ userId, streak: '100/365 🔥' });
+        const streakData = await getUserCommitStreak(username);
+        res.status(200).json(streakData);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Server error while fetching streak stats' });
+        res.status(500).json({ error: 'Server error while fetching streak data' });
     }
 });
 
