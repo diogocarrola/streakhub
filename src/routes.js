@@ -23,10 +23,63 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Sample route for tracking challenges
-router.post('/challenges', (req, res) => {
-    // Logic for tracking challenges
-    res.status(200).json({ message: 'Challenge tracked successfully!' });
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Please provide email and password' });
+    }
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+        // For simplicity, return a success message; token generation can be added later
+        res.status(200).json({ message: 'Login successful', userId: user._id });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error during login' });
+    }
+});
+
+const Challenge = require('./models/Challenge');
+
+// Route to create a new challenge
+router.post('/challenges', async (req, res) => {
+    const { userId, name, startDate, durationDays } = req.body;
+    if (!userId || !name || !startDate || !durationDays) {
+        return res.status(400).json({ error: 'Please provide userId, name, startDate, and durationDays' });
+    }
+    try {
+        const challenge = new Challenge({
+            userId,
+            name,
+            startDate: new Date(startDate),
+            durationDays,
+            progressDays: 0,
+            isActive: true,
+        });
+        await challenge.save();
+        res.status(201).json({ message: 'Challenge created successfully!', challenge });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error while creating challenge' });
+    }
+});
+
+// Route to get challenges for a user
+router.get('/challenges/:userId', async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const challenges = await Challenge.find({ userId });
+        res.status(200).json({ challenges });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error while fetching challenges' });
+    }
 });
 
 // Sample route for fetching streak stats
