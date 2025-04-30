@@ -1,11 +1,26 @@
 const express = require('express');
 const passport = require('./auth');
+const User = require('./models/User');
 const router = express.Router();
 
-// Sample route for user registration
-router.post('/register', (req, res) => {
-    // Logic for user registration
-    res.status(201).json({ message: 'User registered successfully!' });
+// User registration route
+router.post('/register', async (req, res) => {
+    const { username, email, password } = req.body;
+    if (!username || !email || !password) {
+        return res.status(400).json({ error: 'Please provide username, email, and password' });
+    }
+    try {
+        const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+        if (existingUser) {
+            return res.status(409).json({ error: 'User with this email or username already exists' });
+        }
+        const newUser = new User({ username, email, password });
+        await newUser.save();
+        res.status(201).json({ message: 'User registered successfully!' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error during registration' });
+    }
 });
 
 // Sample route for tracking challenges
