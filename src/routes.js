@@ -7,6 +7,7 @@ const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 const { getUserCommitStreak } = require('./githubService');
+const { generateWidget } = require('./widgetController');
 
 // User registration route
 router.post('/register', async (req, res) => {
@@ -103,6 +104,9 @@ router.get('/streak/:username', async (req, res) => {
         res.status(500).json({ error: 'Server error while fetching streak data' });
     }
 });
+
+// SVG widget for GitHub username
+router.get('/widget/:username', generateWidget);
 
 // GitHub OAuth routes
 router.get('/auth/github', passport.authenticate('github'));
