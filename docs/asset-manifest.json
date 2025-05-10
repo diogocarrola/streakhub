@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/streakhub/static/css/main.1b45ed09.css",
+    "main.js": "/streakhub/static/js/main.038d10eb.js",
+    "index.html": "/streakhub/index.html",
+    "main.1b45ed09.css.map": "/streakhub/static/css/main.1b45ed09.css.map",
+    "main.038d10eb.js.map": "/streakhub/static/js/main.038d10eb.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1b45ed09.css",
+    "static/js/main.038d10eb.js"
+  ]
+}
