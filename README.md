@@ -43,6 +43,7 @@
 1. Run the backend and frontend servers locally.
 2. Enter your GitHub username in the app to generate your streak widget.
 3. Embed the generated SVG widget in your GitHub profile README using markdown:
+
    ```
    ![StreakHub](https://your-domain.com/api/widget/your-github-username)
    ```
@@ -51,9 +52,8 @@
 ## Contributing
 Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
+## Acknowledgements
+This README is inspired by and incorporates ideas from [DenverCoder1/github-readme-streak-stats](https://github.com/DenverCoder1/github-readme-streak-stats).
+
 ## License
 This project is licensed under the [MIT License](LICENSE).
-
----
-
-This README is inspired by and incorporates ideas from [DenverCoder1/github-readme-streak-stats](https://github.com/DenverCoder1/github-readme-streak-stats).
