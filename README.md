@@ -43,8 +43,7 @@
 1. Run the backend and frontend servers locally.
 2. Enter your GitHub username in the app to generate your streak widget.
 3. Embed the generated SVG widget in your GitHub profile README using markdown:
-
-   ```
+   ```markdown
    ![StreakHub](https://your-domain.com/api/widget/your-github-username)
    ```
 4. Share your progress and join community challenges as features expand.
