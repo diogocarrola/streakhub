@@ -8,18 +8,26 @@ client.on('error', (err) => {
 
 exports.generateWidget = async (req, res) => {
   const username = req.params.username;
+  console.log(`Generating widget for user: ${username}`);
 
   // Check cache first to improve performance
   client.get(username, async (err, cachedStreak) => {
+    if (err) {
+      console.error('Redis get error:', err);
+    }
     if (cachedStreak) {
+      console.log('Cache hit for user:', username);
       return res.send(cachedStreak);
     }
+    console.log('Cache miss for user:', username);
 
     try {
       // Fetch user's public events (including commits) from GitHub
+      console.log('Fetching GitHub events for user:', username);
       const response = await axios.get(`https://api.github.com/users/${username}/events/public`, {
         headers: { 'User-Agent': 'StreakHub' },
       });
+      console.log('GitHub events fetched successfully');
 
       const events = response.data;
       const commitDates = new Set();
@@ -29,6 +37,7 @@ exports.generateWidget = async (req, res) => {
           commitDates.add(date);
         }
       });
+      console.log('Commit dates extracted:', Array.from(commitDates));
 
       let streak = 0;
       const today = new Date();
@@ -92,12 +101,18 @@ exports.generateWidget = async (req, res) => {
       `;
 
       // Cache the result for future requests
-      client.set(username, svg, 'EX', 60 * 60); // Cache for 1 hour
+      client.set(username, svg, 'EX', 60 * 60, (err) => {
+        if (err) {
+          console.error('Redis set error:', err);
+        } else {
+          console.log('SVG cached for user:', username);
+        }
+      });
 
       res.set('Content-Type', 'image/svg+xml');
       res.send(svg);
     } catch (error) {
-      console.error(error);
+      console.error('Error generating widget:', error);
       res.status(500).send({ error: 'Unable to fetch streak data' });
     }
   });
