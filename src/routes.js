@@ -106,7 +106,7 @@ router.get('/streak/:username', async (req, res) => {
 });
 
 // SVG widget for GitHub username
-router.get('/widget/:username', generateWidget);
+router.get('/widget/:username', widgetController.generateWidget);
 
 // GitHub OAuth routes
 router.get('/auth/github', passport.authenticate('github'));
