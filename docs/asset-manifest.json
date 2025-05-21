@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/streakhub/static/css/main.1b45ed09.css",
-    "main.js": "/streakhub/static/js/main.acc76fa8.js",
+    "main.js": "/streakhub/static/js/main.bfb9200f.js",
     "index.html": "/streakhub/index.html",
     "main.1b45ed09.css.map": "/streakhub/static/css/main.1b45ed09.css.map",
-    "main.acc76fa8.js.map": "/streakhub/static/js/main.acc76fa8.js.map"
+    "main.bfb9200f.js.map": "/streakhub/static/js/main.bfb9200f.js.map"
   },
   "entrypoints": [
     "static/css/main.1b45ed09.css",
-    "static/js/main.acc76fa8.js"
+    "static/js/main.bfb9200f.js"
   ]
 }
