@@ -19,12 +19,6 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "gh-pages": "^6.3.0",
-    "jsonwebtoken": "^9.0.2",
-    "node-cache": "^5.1.2",
-    "passport": "^0.7.0",
-    "passport-github": "^1.1.0",
-    "react-router-dom": "^7.1.5",
-    "redis": "^5.0.1",
-    "sharp": "^0.33.5"
+    "react-router-dom": "^7.1.5"
   }
 }
