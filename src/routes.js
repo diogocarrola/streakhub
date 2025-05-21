@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { getUserCommitStreak } = require('./githubService');
-const { generateWidget } = require('./widgetController');
+const widgetController = require('./widgetController');
 
 // Get the commit streak data for a specific GitHub user
 router.get('/streak/:username', async (req, res) => {
