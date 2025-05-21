@@ -21,7 +21,6 @@
     "express": "^4.21.2",
     "gh-pages": "^6.3.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^7.3.4",
     "node-cache": "^5.1.2",
     "passport": "^0.7.0",
     "passport-github": "^1.1.0",
