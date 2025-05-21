@@ -21,6 +21,9 @@ exports.generateWidget = async (req, res) => {
     const today = new Date();
     let currentDate = new Date(today);
 
+    // Set the minimum date for streak counting (Jan 1, 2025)
+    const minDate = new Date('2025-01-01');
+
     // Check for today's commit status
     const todayISO = currentDate.toISOString().split('T')[0];
     let isStreakBroken = !commitDates.has(todayISO);
@@ -32,31 +35,23 @@ exports.generateWidget = async (req, res) => {
     }
 
     // SVG styling
-    const emoji = isStreakBroken ? "⚠️" : "🔥";
-    const color = isStreakBroken ? "#B0B0B0" : "#1e90ff";
+    const maxStreak = 365;
+    const percent = Math.min(100, Math.round((streak / maxStreak) * 100));
+    const emoji = isStreakBroken ? "🥶" : "🔥";
+    const barColor = isStreakBroken ? "#bdbdbd" : "#ffb300";
+    const bgColor = "#fffbe6";
+    const textColor = "#22223b";
 
     const svg = `
-      <svg fill="none" viewBox="0 0 500 100" width="500" height="100" xmlns="http://www.w3.org/2000/svg">
-        <foreignObject width="100%" height="100%">
-          <div xmlns="http://www.w3.org/1999/xhtml">
-            <style>
-              @keyframes glow {
-                0%, 100% { color: ${color}; }
-                50% { color: #ff4500; }
-              }
-              h1 {
-                font-family: 'Inter', sans-serif;
-                margin: 0;
-                font-size: 3.5em;
-                font-weight: bold;
-                text-align: center;
-                color: ${color};
-                animation: glow 2s ease-in-out infinite;
-              }
-            </style>
-            <h1>${streak}/365 ${emoji}</h1>
-          </div>
-        </foreignObject>
+      <svg width="420" height="120" viewBox="0 0 420 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="420" height="120" rx="20" fill="${bgColor}" />
+        <text x="40" y="55" font-size="32" font-family="Segoe UI, Arial, sans-serif" fill="${textColor}" font-weight="bold">
+          ${emoji} ${streak} day streak
+        </text>
+        <rect x="40" y="70" width="340" height="18" rx="9" fill="#eee" />
+        <rect x="40" y="70" width="${3.4 * percent}" height="18" rx="9" fill="${barColor}" />
+        <text x="380" y="84" font-size="14" font-family="Segoe UI, Arial, sans-serif" fill="#888">${percent}%</text>
+        <text x="40" y="105" font-size="14" font-family="Segoe UI, Arial, sans-serif" fill="#888">Since Jan 1, 2025</text>
       </svg>
     `;
 
