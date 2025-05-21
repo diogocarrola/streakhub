@@ -29,7 +29,10 @@ exports.generateWidget = async (req, res) => {
     let isStreakBroken = !commitDates.has(todayISO);
 
     // Count streak
-    while (commitDates.has(currentDate.toISOString().split('T')[0])) {
+    while (
+      commitDates.has(currentDate.toISOString().split('T')[0]) &&
+      currentDate >= minDate
+    ) {
       streak++;
       currentDate.setDate(currentDate.getDate() - 1);
     }
