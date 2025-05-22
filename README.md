@@ -1,58 +1,46 @@
 # StreakHub 🚀
 
 ## Introduction
-**StreakHub** is a gamified platform designed to help developers maintain consistent coding habits by tracking their GitHub commit streaks. Inspired by the **100 Days of Code challenge** and **Duolingo's streak system**, StreakHub combines motivation, accountability and fun into one seamless experience.
+
+**StreakHub** is a simple, lightweight tool to help developers mantain consistent coding habits by tracking their GitHub commit streaks. Inspired by the **100 Days of Code** challenge and **Duolingo's streak system**, StreakHub lets you easily generate a streak badge for your GitHub profile.
 
 ## Features
-### Core Features
-- **Daily Commit Streak Tracker:** Visualize your progress with streaks like `100/365 🔥`.
-- **Custom Challenges:** Choose from default challenges (e.g., 100 Days of Code) or create your own (e.g., 30-day, 365-day streaks).
-- **Dynamic Widgets:** Add customizable widgets to your GitHub profile to track daily streaks, progress bars and leaderboards.
 
-### Advanced Features
-- **Gamification:** Earn badges for milestones and level up based on activity streaks. Includes forgiveness options for valid breaks.
-- **Community Integration:** Join public challenges, leaderboards and share progress with peers.
-- **Rich Insights:** View detailed coding impact stats, hours spent and repositories contributed to.
-- **Accountability Tools:** Receive daily reminders, logs for reflection and goal-setting prompts.
-
-## Why StreakHub?
-- **Motivates Consistency:** A Duolingo-style streak system encourages daily coding.
-- **Leverages Popular Trends:** Combines GitHub stats with the 100 Days of Code challenge.
-- **Builds Community:** Fosters collaboration and friendly competition among developers.
-
-## Tech Stack
-- **Frontend:** React (dashboard and widgets)
-- **Backend:** Node.js with Express.js
-- **Database:** MongoDB or PostgreSQL
-- **APIs:** GitHub API for fetching commit data
-
-## Roadmap
-### Phase 1: MVP
-- Streak tracker with dynamic SVG widgets for GitHub profiles.
-- Basic backend integration with GitHub API.
-
-### Phase 2: Gamification & Community
-- Add badges, leaderboards, and challenges.
-- Slack/Discord community for sharing progress.
-
-### Phase 3: Advanced Features
-- AI-powered task and repository suggestions.
-- Advanced analytics and customizable dashboards.
+- **SVG Streak Widget:** Instantly generate a modern SVG badge showing your daily commit streak (since Jan 1, 2025).
+- **No Registration Needed:** Just enter your GitHub username and get your streak badge.
+- **Easy Embedding:** Copy a Markdown snippet and add it to your GitHub profile README.
+- **Mobile Friendly:** Works on desktop and mobile browsers.
 
 ## How to Use
-1. Run the backend and frontend servers locally.
-2. Enter your GitHub username in the app to generate your streak widget.
-3. Embed the generated SVG widget in your GitHub profile README using markdown:
+
+1. **Go to the StreakHub Widget Generator:**  
+   [https://diogocarrola.github.io/streakhub/](https://diogocarrola.github.io/streakhub/)
+2. **Enter your GitHub username** in the input box.
+3. **Preview your streak SVG** and copy the provided Markdown snippet.
+4. **Paste the Markdown** into your GitHub profile README:
    ```markdown
-   ![StreakHub](https://your-domain.com/api/widget/your-github-username)
+   ![StreakHub](https://streakhub.onrender.com/widget/YOUR_GITHUB_USERNAME)
    ```
-4. Share your progress and join community challenges as features expand.
+5. **Save your README** file. Your streak badge will now be visible on your GitHub profile!
+6. **Commit at least once a day** to keep your streak alive! If you miss a day, your streak will reset, but don't worry, you can always start again.
+
+## Example
+
+![StreakHub](https://streakhub.onrender.com/widget/diogocarrola)
+
+## FAQ
+
+- **How is my streak calculated?**  
+  Your streak counts consecutive days with at least one commit, starting from Jan 1, 2025.
+
+- **Do I need to sign up?**  
+  No! Just enter your GitHub username.
+
+- **Can I customize the widget?**  
+  Not yet, but theming and customization are planned for future releases.
 
 ## Contributing
-Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-## Acknowledgements
-This README is inspired by and incorporates ideas from [DenverCoder1/github-readme-streak-stats](https://github.com/DenverCoder1/github-readme-streak-stats).
+If you have suggestions or improvements, please open an issue or submit a pull request.
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
