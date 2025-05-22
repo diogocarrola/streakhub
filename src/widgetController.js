@@ -1,48 +1,38 @@
-const axios = require('axios');
+const { getContributionCalendar } = require('./githubService');
 
 exports.generateWidget = async (req, res) => {
   const username = req.params.username;
   try {
-    // Fetch user's public events (commits) from GitHub
-    const response = await axios.get(`https://api.github.com/users/${username}/events/public`, {
-      headers: { 'User-Agent': 'StreakHub' },
-    });
+    const days = await getContributionCalendar(username);
 
-    const events = response.data;
-    const commitDates = new Set();
-    events.forEach(event => {
-      if (event.type === 'PushEvent') {
-        const date = new Date(event.created_at).toISOString().split('T')[0];
-        commitDates.add(date);
-      }
-    });
-
+    // Calculate streak from Jan 1, 2025
     let streak = 0;
-    const today = new Date();
-    let currentDate = new Date(today);
+    let isStreakBroken = false;
+    let today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
 
-    // Set the minimum date for streak counting (Jan 1, 2025)
-    const minDate = new Date('2025-01-01');
-
-    // Check for today's commit status
-    const todayISO = currentDate.toISOString().split('T')[0];
-    let isStreakBroken = !commitDates.has(todayISO);
-
-    // Count streak
-    while (
-      commitDates.has(currentDate.toISOString().split('T')[0]) &&
-      currentDate >= minDate
-    ) {
-      streak++;
-      currentDate.setDate(currentDate.getDate() - 1);
+    // Find today's date in the array
+    for (let i = days.length - 1; i >= 0; i--) {
+      const day = days[i];
+      const dayDate = new Date(day.date);
+      if (dayDate > today) continue;
+      if (day.contributionCount > 0) {
+        streak++;
+      } else {
+        if (dayDate.getTime() === today.getTime()) {
+          isStreakBroken = true;
+        }
+        break;
+      }
+      today.setDate(today.getDate() - 1);
     }
 
     // SVG styling
     const maxStreak = 365;
     const percent = Math.min(100, Math.round((streak / maxStreak) * 100));
     const emoji = isStreakBroken ? "🥶" : "🔥";
-    const barColor = isStreakBroken ? "#bdbdbd" : "#ffb300";
-    const bgColor = isStreakBroken ? "#b3e0ff" : "#fff3cd";
+    const barColor = isStreakBroken ? "#b3e0ff" : "#ffb300";
+    const bgColor = isStreakBroken ? "#e3f2fd" : "#fff3cd";
     const textColor = "#22223b";
 
     const svg = `
@@ -61,13 +51,15 @@ exports.generateWidget = async (req, res) => {
     res.set('Content-Type', 'image/svg+xml');
     res.send(svg);
   } catch (error) {
-    // Always return SVG, even on error
     const errorSvg = `
-      <svg fill="none" viewBox="0 0 500 100" width="500" height="100" xmlns="http://www.w3.org/2000/svg">
-        <text x="20" y="60" font-size="32" fill="red">User not found or error</text>
+      <svg width="420" height="120" viewBox="0 0 420 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="420" height="120" rx="20" fill="#ffeaea" />
+        <text x="40" y="70" font-size="24" font-family="Segoe UI, Arial, sans-serif" fill="#d32f2f">
+          Error: Could not fetch streak for ${req.params.username}
+        </text>
       </svg>
     `;
     res.set('Content-Type', 'image/svg+xml');
-    res.status(404).send(errorSvg);
+    res.status(500).send(errorSvg);
   }
 };
