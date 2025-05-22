@@ -42,7 +42,7 @@ exports.generateWidget = async (req, res) => {
     const percent = Math.min(100, Math.round((streak / maxStreak) * 100));
     const emoji = isStreakBroken ? "🥶" : "🔥";
     const barColor = isStreakBroken ? "#bdbdbd" : "#ffb300";
-    const bgColor = "#fffbe6";
+    const bgColor = isStreakBroken ? "#b3e0ff" : "#fff3cd";
     const textColor = "#22223b";
 
     const svg = `
