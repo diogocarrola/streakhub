@@ -1,46 +1,51 @@
-# StreakHub 🚀
+# StreakHub 🔥
 
-## Introduction
+**StreakHub** is a modern, open-source SVG widget to show your GitHub commit streak since Jan 1, 2025. It's a simple, yet powerful tool to help developers track their coding activity and stay motivated, mantaining consistency in their coding habits.
+It's a great way to showcase your coding journey and inspire others to join you!
 
-**StreakHub** is a simple, lightweight tool to help developers mantain consistent coding habits by tracking their GitHub commit streaks. Inspired by the **100 Days of Code** challenge and **Duolingo's streak system**, StreakHub lets you easily generate a streak badge for your GitHub profile.
+[Try it now!](https://diogocarrola.github.io/streakhub/)
 
-## Features
+## 🚀 How to Use
+1. Go to [StreakHub Widget Generator](https://diogocarrola.github.io/streakhub/)
+2. Enter your GitHub username and preview your streak.
+3. Copy the Markdown and paste it in your GitHub profile README:
 
-- **SVG Streak Widget:** Instantly generate a modern SVG badge showing your daily commit streak (since Jan 1, 2025).
-- **No Registration Needed:** Just enter your GitHub username and get your streak badge.
-- **Easy Embedding:** Copy a Markdown snippet and add it to your GitHub profile README.
-- **Mobile Friendly:** Works on desktop and mobile browsers.
-
-## How to Use
-
-1. **Go to the StreakHub Widget Generator:**  
-   [https://diogocarrola.github.io/streakhub/](https://diogocarrola.github.io/streakhub/)
-2. **Enter your GitHub username** in the input box.
-3. **Preview your streak SVG** and copy the provided Markdown snippet.
-4. **Paste the Markdown** into your GitHub profile README:
    ```markdown
    ![StreakHub](https://streakhub.onrender.com/widget/YOUR_GITHUB_USERNAME)
    ```
-5. **Save your README** file. Your streak badge will now be visible on your GitHub profile!
-6. **Commit at least once a day** to keep your streak alive! If you miss a day, your streak will reset, but don't worry, you can always start again.
+
+4. Save your README and show off your streak!
 
 ## Example
 
-![StreakHub](https://streakhub.onrender.com/widget/diogocarrola)
+<p align="center">
+  <img src="https://streakhub.onrender.com/widget/diogocarrola" alt="StreakHub Example" width="420" />
+</p>
 
-## FAQ
+## 💡 Future Ideas
+- Coding challenges and daily goals
+- Leaderboards and friend connections
+- Community features for coders
+- More themes and customization
+- Milestones and achievements
 
-- **How is my streak calculated?**  
-  Your streak counts consecutive days with at least one commit, starting from Jan 1, 2025.
+**Want to help?**  
+Open an issue or PR, or [connect with me](https://github.com/diogocarrola)!
 
-- **Do I need to sign up?**  
-  No! Just enter your GitHub username.
+## 🤝 Contributing
+We welcome contributions!
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/YourFeature`)
+3. Make your changes
+4. Commit your changes (`git commit -m 'Add some feature'`)
+5. Push to the branch (`git push origin feature/YourFeature`)
+6. Open a pull request
 
-- **Can I customize the widget?**  
-  Not yet, but theming and customization are planned for future releases.
-
-## Contributing
-If you have suggestions or improvements, please open an issue or submit a pull request.
+## About
+StreakHub is built and maintained by [@diogocarrola](https://github.com/diogocarrola).  
+If you like this project, please ⭐️ the repo and share it!
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
+
+## ⭐️ Let's build a coding community together!
