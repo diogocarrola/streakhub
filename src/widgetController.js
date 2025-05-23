@@ -7,32 +7,49 @@ exports.generateWidget = async (req, res) => {
 
     // Calculate streak from Jan 1, 2025
     let streak = 0;
-    let isStreakBroken = false;
     let today = new Date();
     today.setUTCHours(0, 0, 0, 0);
+    const streakStart = new Date('2025-01-01T00:00:00Z');
+    streakStart.setUTCHours(0, 0, 0, 0);
 
     // Find today's date in the array
+    let foundToday = false;
+    let todayHasCommit = false;
+
+    // Go backwards from the last day in the array
     for (let i = days.length - 1; i >= 0; i--) {
       const day = days[i];
       const dayDate = new Date(day.date);
-      if (dayDate > today) continue;
+      dayDate.setUTCHours(0, 0, 0, 0);
+      
+      if (dayDate < streakStart) break;
+
+      if (dayDate.getTime() > today.getTime()) continue;
+
+      if (dayDate.getTime() === today.getTime()) {
+        foundToday = true;
+        if (day.contributionCount > 0) {
+          todayHasCommit = true;
+          streak++;
+        }
+        // If today has no commit, don't break yet, keep counting streak for previous days
+        continue;
+      }
+
+      // For previous days, streak only continues if there was a commit
       if (day.contributionCount > 0) {
         streak++;
       } else {
-        if (dayDate.getTime() === today.getTime()) {
-          isStreakBroken = true;
-        }
         break;
       }
-      today.setDate(today.getDate() - 1);
     }
 
     // SVG styling
     const maxStreak = 365;
     const percent = Math.min(100, Math.round((streak / maxStreak) * 100));
-    const emoji = isStreakBroken ? "🥶" : "🔥";
-    const barColor = isStreakBroken ? "#b3e0ff" : "#ffb300";
-    const bgColor = isStreakBroken ? "#e3f2fd" : "#fff3cd";
+    const emoji = todayHasCommit ? "🔥" : "🥶";
+    const barColor = todayHasCommit ? "#ffb300" : "#b3e0ff";
+    const bgColor = todayHasCommit ? "#fff3cd" : "#e3f2fd";
     const textColor = "#22223b";
 
     const svg = `
