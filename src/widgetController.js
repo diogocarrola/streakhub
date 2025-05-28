@@ -52,6 +52,11 @@ exports.generateWidget = async (req, res) => {
     const bgColor = todayHasCommit ? "#fff3cd" : "#e3f2fd";
     const textColor = "#22223b";
 
+    // Add cache-control headers to discourage caching
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+
     const svg = `
       <svg width="420" height="120" viewBox="0 0 420 120" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="420" height="120" rx="20" fill="${bgColor}" />
