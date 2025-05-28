@@ -19,7 +19,7 @@ It's a great way to showcase your coding journey and inspire others to join you!
 ## Example
 
 <p align="center">
-  <img src="https://streakhub.onrender.com/widget/diogocarrola" alt="StreakHub Example" width="420" />
+  <img src="https://streakhub.onrender.com/widget/diogocarrola?v=20250528" alt="StreakHub Example" width="420" />
 </p>
 
 ## 💡 Future Ideas
