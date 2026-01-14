@@ -1,0 +1,24 @@
+name: Check GitHub token
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 2 * * 1' # weekly on Monday 02:00 UTC
+
+jobs:
+  validate-token:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Run token validation script
+        env:
+          STREAKHUB_GITHUB_TOKEN: ${{ secrets.STREAKHUB_GITHUB_TOKEN }}
+        run: |
+          node src/check-github-token.js
