@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "check-env": "node src/check-config.js",
+    "test-parser": "node src/test/parserTest.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
