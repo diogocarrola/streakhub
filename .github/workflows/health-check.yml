@@ -1,0 +1,20 @@
+name: Health check
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # daily at midnight UTC
+  workflow_dispatch: {}
+
+jobs:
+  check-widget:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl the deployed widget
+        run: |
+          set -e
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://streakhub.onrender.com/widget/diogocarrola")
+          echo "HTTP status: $HTTP_CODE"
+          if [ "$HTTP_CODE" -ne 200 ]; then
+            echo "Health check failed: non-200 response" >&2
+            exit 1
+          fi
