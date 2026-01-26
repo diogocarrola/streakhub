@@ -1,42 +1,52 @@
-const { fetchContributionsFromGithub } = require('./contributionsScraper');
+const { getContributionCalendar } = require('./githubService');
 const cache = require('./cache');
 const themes = require('./themes');
+
+// Helper: Get today's date in user's timezone (as YYYY-MM-DD string)
+function getTodayStringInTimezone(timezone) {
+  const formatter = new Intl.DateTimeFormat('en-CA', {
+    timeZone: timezone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+  return formatter.format(new Date()); // en-CA gives YYYY-MM-DD format
+}
 
 exports.generateWidget = async (req, res) => {
   const username = req.params.username;
   const themeName = req.query.theme || 'duolingo';
-  const grace = parseInt(req.query.grace || '0', 10) || 0; // allowed missed days in a row
-  const cacheKey = `widget:${username}:${themeName}:grace:${grace}`;
+  const grace = parseInt(req.query.grace || '0', 10) || 0;
+  const userTimezone = req.query.tz || 'UTC'; // User's timezone; default UTC
+  const cacheKey = `widget:${username}:${themeName}:grace:${grace}:tz:${userTimezone}`;
 
   // Try cache first
   const cached = await cache.get(cacheKey);
   if (cached) {
     res.set('Content-Type', 'image/svg+xml');
-    // allow CDN caching for a short time and revalidation
     res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
     return res.send(cached);
   }
 
   try {
-    const days = await fetchContributionsFromGithub(username);
+    const days = await getContributionCalendar(username);
 
-    // Calculate streak up to today
+    // Get today's date in user's timezone
+    const todayString = getTodayStringInTimezone(userTimezone);
+
+    // Calculate streak backwards from today
     let streak = 0;
-    let today = new Date();
-    today.setUTCHours(0, 0, 0, 0);
-
     let consecutiveMisses = 0;
     let todayHasCommit = false;
 
-    // iterate backwards through days
+    // iterate backwards through days (most recent first)
     for (let i = days.length - 1; i >= 0; i--) {
       const day = days[i];
-      const dayDate = new Date(day.date);
-      dayDate.setUTCHours(0, 0, 0, 0);
+      const dayDateString = day.date; // YYYY-MM-DD format
 
-      if (dayDate.getTime() > today.getTime()) continue;
+      if (dayDateString > todayString) continue; // Skip future dates
 
-      if (dayDate.getTime() === today.getTime()) {
+      if (dayDateString === todayString) {
         if (day.contributionCount > 0) {
           todayHasCommit = true;
           streak++;
