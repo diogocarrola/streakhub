@@ -59,4 +59,16 @@ async function get(key) {
   return getMemory(key);
 }
 
-module.exports = { get, set };
+async function deleteKey(key) {
+  if (redisClient) {
+    try {
+      await redisClient.del(key);
+      return;
+    } catch (err) {
+      // fallback
+    }
+  }
+  memoryCache.delete(key);
+}
+
+module.exports = { get, set, delete: deleteKey };
