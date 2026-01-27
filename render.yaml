@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: streakhub
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: STREAKHUB_GITHUB_TOKEN
+        scope: run
+      - key: WEBHOOK_SECRET
+        scope: run
